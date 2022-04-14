@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bffcustomer
+spec:
+  selector:
+    matchLabels:
+      run: bffcustomerselector
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: bffcustomerselector
+    spec:
+      containers:
+      - name: bffcustomer
+        image: haricmu/bff_customer
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bffcustomer
+  labels:
+    run: bffcustomer
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    run: bffcustomer
+
